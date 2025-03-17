@@ -114,9 +114,9 @@
         <form method="post">
             <input type="hidden" name="action" value="create">
             <table>
-                <caption>
-                    <h2>Tạo thông tin thuê trọ</h2>
-                </caption>
+
+                <h2>Tạo thông tin thuê trọ</h2>
+
                 <tr>
                     <th>Mã phòng trọ:</th>
                     <td><input type="text" name="maPhongTro" id="maPhongTro" size="45" /></td>
@@ -135,7 +135,13 @@
                 </tr>
                 <tr>
                     <th>Hình thức thanh toán:</th>
-                    <td><input type="text" name="hinhThucThanhToan" id="hinhThucThanhToan" size="15" /></td>
+                    <td>
+                        <select name="hinhThucThanhToan" id="hinhThucThanhToan">
+                            <option value="theo thang">Theo tháng</option>
+                            <option value="theo quy">Theo quý</option>
+                            <option value="theo nam">Theo năm</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Ghi chú:</th>

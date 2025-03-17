@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PhongTroService {
     static private PhongTroDAOImpl PhongTroDAO;
@@ -48,6 +49,13 @@ public class PhongTroService {
         String soDienThoai = request.getParameter("soDienThoai");
         String ngayBatDauThue = request.getParameter("ngayBatDauThue");
         String hinhThucThanhToan = request.getParameter("hinhThucThanhToan");
+        if (Objects.equals(hinhThucThanhToan, "theo nam")){
+            hinhThucThanhToan = "3";
+        } else if (Objects.equals(hinhThucThanhToan, "theo quy")){
+            hinhThucThanhToan = "2";
+        } else if (Objects.equals(hinhThucThanhToan, "theo thang")){
+            hinhThucThanhToan = "1";
+        }
         String ghiChu = request.getParameter("ghiChu");
         PhongTro newPhongTro = new PhongTro(maPhongTro, tenNguoiThue,
                 soDienThoai,ngayBatDauThue,hinhThucThanhToan,ghiChu);

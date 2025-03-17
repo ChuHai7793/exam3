@@ -293,6 +293,7 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
             preparedStatement.setString(3, phongTro.getSoDienThoai());
             preparedStatement.setDate(4, Date.valueOf(phongTro.getNgayBatDauThue()));
             preparedStatement.setInt(5, Integer.parseInt( phongTro.getHinhThucThanhToan()));
+            preparedStatement.setInt(5, Integer.parseInt( phongTro.getHinhThucThanhToan()));
             preparedStatement.setString(6, phongTro.getGhiChu());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
