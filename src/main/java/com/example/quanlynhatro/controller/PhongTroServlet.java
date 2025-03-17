@@ -39,6 +39,9 @@ public class PhongTroServlet extends HttpServlet {
                     break;
                 case "edit":
                     break;
+                case "delete":
+                    phongTroService.deleteMultiplePhongTro(request, response);
+                    break;
 
             }
         }
@@ -64,9 +67,6 @@ public class PhongTroServlet extends HttpServlet {
                     break;
                 case "search":
                     phongTroService.findPhongTro(request, response);
-                    break;
-                case "delete":
-                    phongTroService.deleteMultiplePhongTro(request, response);
                     break;
 
                 default:

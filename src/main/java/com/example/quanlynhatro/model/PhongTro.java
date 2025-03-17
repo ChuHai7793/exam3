@@ -7,11 +7,11 @@ public class PhongTro {
     private String maPhongTro;
     private String tenNguoiThue;
     private String soDienThoai;
-    private Date ngayBatDauThue;
+    private String ngayBatDauThue;
     private String hinhThucThanhToan;
     private String ghiChu;
 
-    public PhongTro(String maPhongTro, String tenNguoiThue, String soDienThoai, Date ngayBatDauThue, String hinhThucThanhToan, String ghiChu) {
+    public PhongTro(String maPhongTro, String tenNguoiThue, String soDienThoai, String ngayBatDauThue, String hinhThucThanhToan, String ghiChu) {
         this.maPhongTro = maPhongTro;
         this.tenNguoiThue = tenNguoiThue;
         this.soDienThoai = soDienThoai;
@@ -55,11 +55,11 @@ public class PhongTro {
         this.soDienThoai = soDienThoai;
     }
 
-    public Date getNgayBatDauThue() {
+    public String getNgayBatDauThue() {
         return ngayBatDauThue;
     }
 
-    public void setNgayBatDauThue(Date ngayBatDauThue) {
+    public void setNgayBatDauThue(String ngayBatDauThue) {
         this.ngayBatDauThue = ngayBatDauThue;
     }
 

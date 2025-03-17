@@ -3,9 +3,7 @@ package com.example.quanlynhatro.dao;
 
 import com.example.quanlynhatro.model.PhongTro;
 
-import java.io.PrintWriter;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,15 +14,9 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
     private String jdbcPassword = "7793";
 
     private static final String INSERT_PHONGTROS_SQL = "INSERT INTO phong_tro (ma_phong_tro, ten_nguoi_thue, so_dien_thoai,ngay_bat_dau,hinh_thuc_tt_id,ghi_chu) VALUES (?, ?, ?,?,?,?);";
-    private static final String SELECT_USER_BY_ID = "select id,name,email,country from users where id =?";
     private static final String SELECT_ALL_PHONGTROS = "select * from phong_tro";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
 
-    private static final String SELECT_USERS_BY_COUNTRY = "select id,name,email,country from users where country =?";
-    private static final String SELECT_USER_BY_NAME_WITH_ORDER = "select id,name,email,country \n" +
-                                                                    "from users \n" +
-                                                                    "order by name asc;";
     public PhongTroDAOImpl() {
     }
 
@@ -121,7 +113,7 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
                 String ma_phong_tro = rs.getString("ma_phong_tro");
                 String ten_nguoi_thue = rs.getString("ten_nguoi_thue");
                 String so_dien_thoai = rs.getString("so_dien_thoai");
-                Date ngay_bat_dau = rs.getDate("ngay_bat_dau");
+                String ngay_bat_dau = rs.getString("ngay_bat_dau");
                 String hinh_thuc_tt_id = rs.getString("hinh_thuc_tt_id");
                 String ghi_chu = rs.getString("ghi_chu");
                 phongTros.add(new PhongTro(ma_phong_tro, ten_nguoi_thue, so_dien_thoai,
@@ -299,8 +291,8 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
             preparedStatement.setString(1, phongTro.getMaPhongTro());
             preparedStatement.setString(2, phongTro.getTenNguoiThue());
             preparedStatement.setString(3, phongTro.getSoDienThoai());
-            preparedStatement.setDate(4, phongTro.getNgayBatDauThue());
-            preparedStatement.setString(5, phongTro.getHinhThucThanhToan());
+            preparedStatement.setDate(4, Date.valueOf(phongTro.getNgayBatDauThue()));
+            preparedStatement.setInt(5, Integer.parseInt( phongTro.getHinhThucThanhToan()));
             preparedStatement.setString(6, phongTro.getGhiChu());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
@@ -318,7 +310,7 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
                 String ma_phong_tro =  rs.getString("ma_phong_tro");
                 String ten_nguoi_thue =  rs.getString("ten_nguoi_thue");
                 String so_dien_thoai =  rs.getString("so_dien_thoai");
-                Date ngay_bat_dau =  rs.getDate("ngay_bat_dau");
+                String ngay_bat_dau =  rs.getString("ngay_bat_dau");
                 String ghi_chu =  rs.getString("ghi_chu");
                 String hinh_thuc_tt_id =  rs.getString("hinh_thuc_tt_id");
                 PhongTro phongTro = new PhongTro(ma_phong_tro,ten_nguoi_thue,so_dien_thoai,
@@ -349,76 +341,76 @@ public class PhongTroDAOImpl implements IPhongTroDAO {
 //            e.printStackTrace();
 //        }
 //    }
-//    @Override
-//    public void addPhongTroTransaction(PhongTro phongTro) {
-//        Connection conn = null;
-//        // for insert a new user
-//        PreparedStatement pstmt = null;
+@Override
+public void addPhongTroTransaction(PhongTro phongTro) {
+        Connection conn = null;
+        // for insert a new user
+        PreparedStatement pstmt = null;
+
+        // for assign permision to user
+        PreparedStatement pstmtAssignment = null;
+
+        // for getting user id
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+
+            // set auto commit to false
+            conn.setAutoCommit(false);
+
+            // Insert user
+            pstmt = conn.prepareStatement(INSERT_PHONGTROS_SQL, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, phongTro.getMaPhongTro());
+            pstmt.setString(2, phongTro.getTenNguoiThue());
+            pstmt.setString(3, phongTro.getSoDienThoai());
+            pstmt.setDate(4, Date.valueOf(phongTro.getNgayBatDauThue()));
+            pstmt.setString(5, phongTro.getHinhThucThanhToan());
+            pstmt.setString(6, phongTro.getGhiChu());
+            int rowAffected = pstmt.executeUpdate();
+
+//            // get user id
+//            rs = pstmt.getGeneratedKeys();
 //
-//        // for assign permision to user
-//        PreparedStatement pstmtAssignment = null;
+//            int userId = 0;
+//            if (rs.next())
+//                userId = rs.getInt(1);
 //
-//        // for getting user id
-//        ResultSet rs = null;
-//        try {
-//            conn = getConnection();
+//            // in case the insert operation successes, assign permision to user
+//            if (rowAffected == 1) {
+//                // assign permision to user
+//                String sqlPivot = "INSERT INTO user_permision(user_id,permision_id) "
+//                        + "VALUES(?,?)";
+//                pstmtAssignment = conn.prepareStatement(sqlPivot);
 //
-//            // set auto commit to false
-//            conn.setAutoCommit(false);
-//
-//            // Insert user
-//            pstmt = conn.prepareStatement(INSERT_PHONGTROS_SQL, Statement.RETURN_GENERATED_KEYS);
-//            pstmt.setString(1, phongTro.getMaPhongTro());
-//            pstmt.setString(2, phongTro.getTenNguoiThue());
-//            pstmt.setString(3, phongTro.getSoDienThoai());
-//            pstmt.setDate(4, phongTro.getNgayBatDauThue());
-//            pstmt.setString(5, phongTro.getHinhThucThanhToan());
-//            pstmt.setString(6, phongTro.getGhiChu());
-//            int rowAffected = pstmt.executeUpdate();
-//
-////            // get user id
-////            rs = pstmt.getGeneratedKeys();
-////
-////            int userId = 0;
-////            if (rs.next())
-////                userId = rs.getInt(1);
-////
-////            // in case the insert operation successes, assign permision to user
-////            if (rowAffected == 1) {
-////                // assign permision to user
-////                String sqlPivot = "INSERT INTO user_permision(user_id,permision_id) "
-////                        + "VALUES(?,?)";
-////                pstmtAssignment = conn.prepareStatement(sqlPivot);
-////
-////                for (int permisionId : permissions) {
-////                    pstmtAssignment.setInt(1, userId);
-////                    pstmtAssignment.setInt(2, permisionId);
-////                    pstmtAssignment.executeUpdate();
-////                }
-////                conn.commit();
-////            } else {
-////                conn.rollback();
-////            }
-//
-//        } catch (SQLException ex) {
-//            // roll back the transaction
-//            try {
-//                if (conn != null)
-//                    conn.rollback();
-//            } catch (SQLException e) {
-//                System.out.println(e.getMessage());
+//                for (int permisionId : permissions) {
+//                    pstmtAssignment.setInt(1, userId);
+//                    pstmtAssignment.setInt(2, permisionId);
+//                    pstmtAssignment.executeUpdate();
+//                }
+//                conn.commit();
+//            } else {
+//                conn.rollback();
 //            }
-//            System.out.println(ex.getMessage());
-//        } finally {
-//            try {
-//                if (rs != null) rs.close();
-//                if (pstmt != null) pstmt.close();
-//                if (pstmtAssignment != null) pstmtAssignment.close();
-//                if (conn != null) conn.close();
-//            } catch (SQLException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//    }
+
+        } catch (SQLException ex) {
+            // roll back the transaction
+            try {
+                if (conn != null)
+                    conn.rollback();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (pstmtAssignment != null) pstmtAssignment.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 }

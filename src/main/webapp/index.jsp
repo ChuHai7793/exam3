@@ -67,7 +67,8 @@
     <input type="submit" value="SEARCH">
 </form>
 
-<form action="?action=deleteMultiple" method="post" class="mb-3">
+<form action="" method="post" class="mb-3">
+    <input type="hidden" name="action" value="delete">
 <div class="text-center">
     <h2>List of PhongTro</h2>
 </div>
@@ -103,7 +104,6 @@
         </c:forEach>
     </table>
 </div>
-
     <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa các phòng trọ đã chọn?')">Xóa các phòng trọ đã chọn</button>
 </form>
 
@@ -150,7 +150,6 @@
         </form>
     </div>
 </div>
-<button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa các phòng trọ đã chọn?')">Xóa các phòng trọ đã chọn</button>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const modal = document.getElementById("myModal");
